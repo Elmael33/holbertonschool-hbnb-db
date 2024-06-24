@@ -1,4 +1,4 @@
-Flask==2.0.2
-SQLAlchemy==1.4.22
-Flask-SQLAlchemy==2.5.1
-Flask-CORS==3.0.10
+flask
+flask_cors
+
+gunicorn
