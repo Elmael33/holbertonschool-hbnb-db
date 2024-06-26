@@ -19,7 +19,8 @@ class Config(ABC):
 
     DEBUG = False
     TESTING = False
-
+    
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///hbnb.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
