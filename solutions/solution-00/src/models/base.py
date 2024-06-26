@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import Any, Optional
 import uuid
 from abc import ABC, abstractmethod
+from src import db
 
 
 class Base(ABC):
