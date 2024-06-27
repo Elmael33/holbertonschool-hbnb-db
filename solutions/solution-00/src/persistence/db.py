@@ -53,4 +53,3 @@ class DBRepository(Repository):
         self.session.delete(obj)
         self.session.commit()
         return True
-
