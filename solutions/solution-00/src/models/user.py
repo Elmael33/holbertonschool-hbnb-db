@@ -8,11 +8,12 @@ from src.models.base import Base
 class User(Base):
     """User representation"""
 
-    email: str
-    first_name: str
-    last_name: str
-
+    id = db.Column(db.String(36), primary_key=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(128), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
     def __init__(self, email: str, first_name: str, last_name: str, **kw):
+        
         """Dummy init"""
         super().__init__(**kw)
         self.email = email
