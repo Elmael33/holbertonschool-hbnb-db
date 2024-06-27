@@ -19,6 +19,8 @@ class Config(ABC):
 
     DEBUG = False
     TESTING = False
+    
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///development.db'
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
