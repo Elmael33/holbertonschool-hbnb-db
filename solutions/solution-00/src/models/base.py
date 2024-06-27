@@ -12,9 +12,9 @@ class Base(ABC):
     Base Interface for all models
     """
 
-    id: str
-    created_at: datetime
-    updated_at: datetime
+    id = db.Column(db.String(36), primary_key=True)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     def __init__(
         self,
@@ -78,8 +78,10 @@ class Base(ABC):
 
         if not obj:
             return False
-
-        return repo.delete(obj)
+        
+        db.session.delete(obj)
+        db.session.commit()
+        return True
 
     @abstractmethod
     def to_dict(self) -> dict:

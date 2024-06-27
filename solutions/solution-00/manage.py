@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """ Entry point for the application. """
 
 from flask.cli import FlaskGroup
