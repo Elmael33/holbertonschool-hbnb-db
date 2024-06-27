@@ -14,30 +14,43 @@
 
 from src.models.base import Base
 from src.persistence.repository import Repository
+from src import db
 
 
 class DBRepository(Repository):
     """Dummy DB repository"""
 
     def __init__(self) -> None:
-        """Not implemented"""
+        """Initialize the DB repository with a session"""
+        self.session = db.session
 
     def get_all(self, model_name: str) -> list:
-        """Not implemented"""
-        return []
+        """Retrieve all objects of a given model"""
+        model_class = self._get_model_class(model_name)
+        return self.session.query(model_class).all()
 
     def get(self, model_name: str, obj_id: str) -> Base | None:
-        """Not implemented"""
+        """Retrieve an object by its ID"""
+        model_class = self._get_model_class(model_name)
+        return self.session.query(model_class).get(obj_id)
 
     def reload(self) -> None:
-        """Not implemented"""
+        """Reload the objects from the database"""
+        self.session.expire_all()
 
     def save(self, obj: Base) -> None:
-        """Not implemented"""
+        """Save a new object to the database"""
+        self.session.add(obj)
+        self.session.commit()
 
     def update(self, obj: Base) -> Base | None:
-        """Not implemented"""
+        """Update an existing object"""
+        self.session.commit()
+        return obj
 
     def delete(self, obj: Base) -> bool:
-        """Not implemented"""
-        return False
+        """Delete an object from the database"""
+        self.session.delete(obj)
+        self.session.commit()
+        return True
+
