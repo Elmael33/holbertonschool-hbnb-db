@@ -3,12 +3,14 @@ Amenity related functionality
 """
 
 from src.models.base import Base
+from src import db
 
 
 class Amenity(Base):
     """Amenity representation"""
 
-    name: str
+    id = db.Column(db.String(36), primary_key=True)
+    name = db.Column(db.String(128), nullable=False)
 
     def __init__(self, name: str, **kw) -> None:
         """Dummy init"""
@@ -35,6 +37,9 @@ class Amenity(Base):
         from src.persistence import repo
 
         amenity = Amenity(**data)
+        
+        db.session.add(amenity)
+        db.session.commit()
 
         repo.save(amenity)
 
@@ -52,7 +57,9 @@ class Amenity(Base):
 
         if "name" in data:
             amenity.name = data["name"]
-
+        
+        db.session.commit()
+        
         repo.update(amenity)
 
         return amenity
@@ -61,8 +68,9 @@ class Amenity(Base):
 class PlaceAmenity(Base):
     """PlaceAmenity representation"""
 
-    place_id: str
-    amenity_id: str
+    id = db.Column(db.String(36), primary_key=True)
+    place_id = db.Column(db.String(36), nullable=False)
+    amenity_id = db.Column(db.String(36), nullable=False)
 
     def __init__(self, place_id: str, amenity_id: str, **kw) -> None:
         """Dummy init"""
@@ -107,7 +115,10 @@ class PlaceAmenity(Base):
         from src.persistence import repo
 
         new_place_amenity = PlaceAmenity(**data)
-
+        
+        db.session.add(new_place_amenity)
+        db.session.commit()
+        
         repo.save(new_place_amenity)
 
         return new_place_amenity
@@ -121,9 +132,12 @@ class PlaceAmenity(Base):
 
         if not place_amenity:
             return False
-
+        
         repo.delete(place_amenity)
-
+        
+        db.session.delete(place_amenity)
+        db.session.commit()
+        
         return True
 
     @staticmethod
